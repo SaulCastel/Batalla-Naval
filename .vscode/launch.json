@@ -15,7 +15,8 @@
             "name": "Debug (Launch)-Menu<BatallaNaval>",
             "request": "launch",
             "mainClass": "app.Menu",
-            "projectName": "BatallaNaval"
+            "projectName": "BatallaNaval",
+            "console": "externalTerminal"
         }
     ]
 }

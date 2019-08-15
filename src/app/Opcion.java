@@ -19,7 +19,6 @@ class Opcion {
         while (true) {
             System.out.print("\n¿Que deseas hacer?: ");
             while (!entrada.hasNextInt()) {
-                System.out.println("Solo puedes ingresar un numero de opcion");
                 System.out.print("\n¿Que deseas hacer?: ");
                 entrada.nextLine();
             }
@@ -45,14 +44,12 @@ class Opcion {
         String j2 = entrada.next();
         Tablero.dibujar(tablero, tablero2);
         Barcos(j1, turno, tablero2);
-        System.out.println("\n"+j2.toUpperCase()+", presiona tecla ENTER para poner tus barcos\n");
+        System.out.println("\n"+j2.toUpperCase()+", Presiona la tecla ENTER para poner tus barcos\n");
         entrada.nextLine();
         for (int i = 0; i < 20; i++) {System.out.println("\n");}
         Tablero.dibujar(tablero, tablero2);
         Barcos(j2, turno2, tablero);
-        int barcos1 = Top.cantidadB(turno);
-        int barcos2 = Top.cantidadB(turno2);
-        System.out.println("\n---presiona tecla ENTER para empezar el juego---\n");
+        System.out.println("\n---Presiona tecla ENTER para empezar el juego---\n");
         entrada.nextLine();
         for (int i = 0; i < 20; i++) {System.out.println("\n");}
         double quien = Math.random();
@@ -61,9 +58,15 @@ class Opcion {
         boolean realizado2 = false;
         boolean terminar = false;
         int puntos1 = 200;
-        int puntos2 = 200;        
+        int puntos2 = 200;
+        int aciertos1 = 0;
+        int fallos1 = 0;
+        int aciertos2 = 0;
+        int fallos2 = 0;        
+        int barcos1 = Top.cantidad(turno, "■");
+        int barcos2 = Top.cantidad(turno2, "■");
         while (!terminar){
-            if (quien >= 0.0 && quien <=0.5){
+            if (quien >= 0.0 && quien <=0.5 && barcos1 != 0){
                 Tablero.dibujar(turno, tablero2);
                 System.out.println("\n***TURNO #"+numero+", " + j1.toUpperCase() + " , "+puntos1+" PUNTOS RESTANTES***\n");
                 puntos1 = puntos1 + Barco.tiro(turno2, tablero2);
@@ -71,9 +74,11 @@ class Opcion {
                 System.out.println("\n---" + j2.toUpperCase() + ", Presiona tecla ENTER---\n");
                 entrada.nextLine();
                 for (int i=0;i<20;i++){System.out.println("\n");}
-                quien = 2;
+                barcos2 = Top.cantidad(turno2, "■");
+                quien = 0.8;
                 realizado = true;
-            }else {
+            }
+            if (quien > 0.5 && quien <= 1.0 && barcos2 != 0) {
                 Tablero.dibujar(tablero, turno2);
                 System.out.println("\n***TURNO #"+numero+", " + j2.toUpperCase() + " , "+puntos2+" PUNTOS RESTANTES***\n");
                 puntos2 = puntos2 + Barco.tiro(turno, tablero);
@@ -81,12 +86,11 @@ class Opcion {
                 System.out.println("\n---" + j1.toUpperCase() + ", Presiona tecla ENTER---\n");
                 entrada.nextLine();
                 for (int i=0;i<20;i++){System.out.println("\n");}
-                quien = 1;
+                barcos1 = Top.cantidad(turno, "■");
+                quien = 0.2;
                 realizado2 = true;
             }
             if (realizado == true && realizado2 == true ){
-                barcos1 = Top.cantidadB(turno);
-                barcos2 = Top.cantidadB(turno2);
                 numero++;
                 realizado = false;
                 realizado2 = false;
@@ -94,10 +98,20 @@ class Opcion {
             if (puntos1 <= 0 || barcos1 == 0){
                 System.out.println("***¡"+j1.toUpperCase()+" PIERDE, FELICIDADES "+j2.toUpperCase()+"!***");
                 System.out.println("***¡GANASTE LA PARTIDA CON "+puntos2+" PUNTOS!***");
+                aciertos1 = Top.cantidad( tablero2, ANSI.ROJO+"X"+ANSI.RESET+"");
+                fallos1 = Top.cantidad( tablero2, ANSI.AZUL+"O"+ANSI.RESET+"");
+                aciertos2 = Top.cantidad( tablero, ANSI.ROJO+"X"+ANSI.RESET+"");
+                fallos2 = Top.cantidad( tablero, ANSI.AZUL+"O"+ANSI.RESET+"");
+                Top.historial(j2, puntos2, aciertos2 , fallos2, j1, puntos1, aciertos1, fallos1, tablero);
                 terminar = true;
             } else if (puntos2 <= 0 || barcos2 == 0){
                 System.out.println("***¡"+j2.toUpperCase()+" PIERDE, FELICIDADES "+j1.toUpperCase()+"!***");
                 System.out.println("***¡GANASTE LA PARTIDA CON "+puntos1+" PUNTOS!***");
+                aciertos1 = Top.cantidad( tablero2, ANSI.ROJO+"X"+ANSI.RESET+"");
+                fallos1 = Top.cantidad( tablero2, ANSI.AZUL+"O"+ANSI.RESET+"");
+                aciertos2 = Top.cantidad( tablero, ANSI.ROJO+"X"+ANSI.RESET+"");
+                fallos2 = Top.cantidad( tablero, ANSI.AZUL+"O"+ANSI.RESET+"");
+                Top.historial(j1, puntos1, aciertos1 , fallos1, j2, puntos2, aciertos2, fallos2, tablero);
                 terminar = true;
             }
         }
@@ -109,19 +123,19 @@ class Opcion {
         Tablero.dibujar(matriz1, matriz2);
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 2 BARCOS DE 3 CASILLAS");
         for (int b = 1; b <= 2; b++) {
-            System.out.println("Barco #" + b);
+            System.out.println("--→Barco #" + b+"←--");
             Barco.barco3(matriz1);
             Tablero.dibujar(matriz1, matriz2);
         }
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 3 BARCOS DE 2 CASILLAS");
         for (int b = 1; b <= 3; b++) {
-            System.out.println("Barco #" + b);
+            System.out.println("--→Barco #" + b+"←--");
             Barco.barco2(matriz1);
             Tablero.dibujar(matriz1, matriz2);
         }
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 4 BARCOS DE 1 CASILLA");
         for (int b = 1; b <= 4; b++) {
-            System.out.println("Barco #" + b);
+            System.out.println("--→Barco #" + b+"←--");
             Barco.barco1(matriz1);
             Tablero.dibujar(matriz1, matriz2);
         }
