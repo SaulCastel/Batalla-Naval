@@ -7,9 +7,9 @@ class Opcion {
 
     public static int opciones() {
         int eleccion = 0;
-        System.out.println("\nBatalla Naval v1.0");
+        System.out.println("\nBatalla Naval v1.5");
         System.out.println("1. Empezar Nueva Partida");
-        System.out.println("2. Mostrar Historial De Partidas");
+        System.out.println("2. Mostrar resultados De Partidas");
         System.out.println("3. Mostrar Puntuaciones Mas Altas");
         System.out.println("4. Mostrar Jugadores Con Mayor Cantidad De Fallos");
         System.out.println("5. Mostrar Jugadores Con Mayor Cantidad De Aciertos");
@@ -102,7 +102,7 @@ class Opcion {
                 fallos1 = Top.cantidad( tablero2, ANSI.AZUL+"O"+ANSI.RESET+"");
                 aciertos2 = Top.cantidad( tablero, ANSI.ROJO+"X"+ANSI.RESET+"");
                 fallos2 = Top.cantidad( tablero, ANSI.AZUL+"O"+ANSI.RESET+"");
-                Top.historial(j2, puntos2, aciertos2 , fallos2, j1, puntos1, aciertos1, fallos1, tablero);
+                Top.resultados(j2, puntos2, aciertos2 , fallos2, j1, puntos1, aciertos1, fallos1, tablero);
                 terminar = true;
             } else if (puntos2 <= 0 || barcos2 == 0){
                 System.out.println("***¡"+j2.toUpperCase()+" PIERDE, FELICIDADES "+j1.toUpperCase()+"!***");
@@ -111,7 +111,7 @@ class Opcion {
                 fallos1 = Top.cantidad( tablero2, ANSI.AZUL+"O"+ANSI.RESET+"");
                 aciertos2 = Top.cantidad( tablero, ANSI.ROJO+"X"+ANSI.RESET+"");
                 fallos2 = Top.cantidad( tablero, ANSI.AZUL+"O"+ANSI.RESET+"");
-                Top.historial(j1, puntos1, aciertos1 , fallos1, j2, puntos2, aciertos2, fallos2, tablero);
+                Top.resultados(j1, puntos1, aciertos1 , fallos1, j2, puntos2, aciertos2, fallos2, tablero);
                 terminar = true;
             }
         }

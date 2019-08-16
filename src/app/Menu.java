@@ -1,11 +1,8 @@
 package app;
 
-import java.util.Scanner;
-
 public class Menu {
 
     static boolean salir = false;
-    static Scanner entrada = new Scanner(System.in);
     static int opcion = 0;
     public static void main(String[] args) {
         while(!salir){
@@ -30,7 +27,7 @@ public class Menu {
                     System.out.print("\nSECCION C\n");
                     break;
                 case 8:
-                    //MOSTRAR MENSAJE
+                    System.out.print("\n¡Hasta pronto!\n");
                     salir = true;
                     break;
                 default:
