@@ -3,29 +3,6 @@ package app;
 import java.io.*;
 
 class Top {
-    static File texto = new File("historial.txt");
-
-    public static void historial() {
-
-        String linea = null;
-
-        try {
-
-            FileReader archivo = new FileReader(texto);
-
-            BufferedReader lector = new BufferedReader(archivo);
-
-            while ((linea = lector.readLine()) != null) {
-                System.out.println(linea);
-            }
-
-            lector.close();
-        } catch (FileNotFoundException errorArc) {
-            System.out.println("Error al abrir '" + texto + "'");
-        } catch (IOException errorLeer) {
-            System.out.println("Error al leer '" + texto + "'");
-        }
-    }
 
     public static int cantidad(String matriz[][], String elemento) {
         int cantidad = 0;
@@ -42,7 +19,7 @@ class Top {
             int aciertos2, int fallos2, int tablero) {
 
         try {
-            FileWriter archivo = new FileWriter(texto, true);
+            FileWriter archivo = new FileWriter(Menu.historial, true);
             BufferedWriter actualizar = new BufferedWriter(archivo);
             PrintWriter escribir = new PrintWriter(actualizar);
             escribir.println("\noooooooooooooooooooooooooooooooooooooooooooooooooo");

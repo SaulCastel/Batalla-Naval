@@ -2,20 +2,18 @@ package app;
 
 import java.util.Scanner;
 
+import java.io.*;
+
 class Opcion {
     private static Scanner entrada = new Scanner(System.in);
 
     public static int opciones() {
         int eleccion = 0;
-        System.out.println("\nBatalla Naval v2.0");
+        System.out.println("\nBatalla Naval v2.5 (no pasó a v3.0 porque no pude implementar las demas opciones");
         System.out.println("1. Empezar Nueva Partida");
         System.out.println("2. Mostrar Historial De Partidas");
-        System.out.println("3. Mostrar Puntuaciones Mas Altas");
-        System.out.println("4. Mostrar Jugadores Con Mayor Cantidad De Fallos");
-        System.out.println("5. Mostrar Jugadores Con Mayor Cantidad De Aciertos");
-        System.out.println("6. Mostrar TOP 3 jugadores");
-        System.out.println("7. Mostrar Informacion Del Estudiante");
-        System.out.println("8. Salir");
+        System.out.println("3. Mostrar Informacion Del Estudiante");
+        System.out.println("4. Salir");
         while (true) {
             System.out.print("\n¿Que deseas hacer?: ");
             while (!entrada.hasNextInt()) {
@@ -138,6 +136,28 @@ class Opcion {
             System.out.println("--→Barco #" + b+"←--");
             Barco.barco1(matriz1);
             Tablero.dibujar(matriz1, matriz2);
+        }
+    }
+  
+    public static void archivo (File texto) {
+
+        String linea = null;
+
+        try {
+
+            FileReader archivo = new FileReader(texto);
+
+            BufferedReader lector = new BufferedReader(archivo);
+
+            while ((linea = lector.readLine()) != null) {
+                System.out.println(linea);
+            }
+
+            lector.close();
+        } catch (FileNotFoundException errorArc) {
+            System.out.println("Error al abrir '" + texto + "'");
+        } catch (IOException errorLeer) {
+            System.out.println("Error al leer '" + texto + "'");
         }
     }
 }
