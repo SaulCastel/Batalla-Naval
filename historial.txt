@@ -6,13 +6,7 @@ TAMANIO DEL TABLERO: 26 x 26
 PUNTOS, ACIERTOS Y FALLOS DE PRUEBA: 1, 2, 3
 PUNTOS, ACIERTOS Y FALLOS DE PRUEBA: 4, 5, 6
 
-oooooooooooooooooooooooooooooooooooooooooooooooooo
-
-oooooooooooooooooooooooooooooooooooooooooooooooooo
-
-GANADOR: PRUEBA / PERDEDOR: PRUEBA
-TAMANIO DEL TABLERO: 26 x 26
-PUNTOS, ACIERTOS Y FALLOS DE PRUEBA: 1, 2, 3
-PUNTOS, ACIERTOS Y FALLOS DE PRUEBA: 4, 5, 6
+****DEBES JUGAR UNA PARTIDA PARA QUE SE GUARDE****
+      ****EN EL HISTORIAL DE PARTIDAS****
 
 oooooooooooooooooooooooooooooooooooooooooooooooooo

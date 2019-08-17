@@ -10,7 +10,7 @@ public class Menu {
 
     public static void main(String[] args) {
         Opcion.archivo(logo);
-        Top.resultados("prueba", 1, 2, 3, "prueba", 4, 5, 6, 26);
+        System.out.println("\nBatalla Naval v2.5\n");
         while (!salir) {
             opcion = Opcion.opciones();
             switch (opcion) {
@@ -22,8 +22,8 @@ public class Menu {
                 break;
             case 3:
                 System.out.print("\nSAUL ESTEBAN CASTELLANOS UBEDA\n");
-                System.out.print("\nREGISTRO ESTUDIANTIL: 201801178\n");
-                System.out.print("\nSECCION C\n");
+                System.out.print("\nREGISTRO ESTUDIANTIL 201801178\n");
+                System.out.print("\n********* SECCION C **********\n");
                 break;
             case 4:
                 System.out.print("\n¡HASTA PRONTO, GRACIAS POR JUGAR!\n");

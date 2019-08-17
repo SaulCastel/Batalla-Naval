@@ -9,8 +9,7 @@ class Opcion {
 
     public static int opciones() {
         int eleccion = 0;
-        System.out.println("\nBatalla Naval v2.5 (no pasó a v3.0 porque no pude implementar las demas opciones");
-        System.out.println("1. Empezar Nueva Partida");
+        System.out.println("\n1. Empezar Nueva Partida");
         System.out.println("2. Mostrar Historial De Partidas");
         System.out.println("3. Mostrar Informacion Del Estudiante");
         System.out.println("4. Salir");
