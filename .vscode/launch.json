@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "app.Menu",
             "projectName": "BatallaNaval",
-            "console": "externalTerminal"
+            "console": "integratedTerminal"
         }
     ]
 }

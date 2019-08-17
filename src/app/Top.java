@@ -1,12 +1,29 @@
 package app;
 
+import java.io.*;
+
 class Top {
-    public static void historial(int partidas) {
-        String historial[][] = new String[2][4];
-        historial[0][1] = "GANADOR: ";
-        historial[1][1] = "PERDEDOR: ";
-        for (int p = 0; p<=partidas;p++){
-            
+    static File texto = new File("historial.txt");
+
+    public static void historial() {
+
+        String linea = null;
+
+        try {
+
+            FileReader archivo = new FileReader(texto);
+
+            BufferedReader lector = new BufferedReader(archivo);
+
+            while ((linea = lector.readLine()) != null) {
+                System.out.println(linea);
+            }
+
+            lector.close();
+        } catch (FileNotFoundException errorArc) {
+            System.out.println("Error al abrir '" + texto + "'");
+        } catch (IOException errorLeer) {
+            System.out.println("Error al leer '" + texto + "'");
         }
     }
 
@@ -22,13 +39,24 @@ class Top {
     }
 
     public static void resultados(String ganador, int puntos1, int aciertos1, int fallos1, String perdedor, int puntos2,
-            int aciertos2, int fallos2, String tablero[][]) {
-        System.out.println("\nGANADOR: " + ganador.toUpperCase() + " / PERDEDOR: " + perdedor.toUpperCase());
-        System.out.println("TAMAÑO DEL TABLERO: " + tablero.length + " x " + tablero.length);
-        System.out.println("PUNTOS, ACIERTOS Y FALLOS DE " + ganador.toUpperCase() + ": " + puntos1 + ", " + aciertos1
-                + ", " + fallos1);
-        System.out.println("PUNTOS, ACIERTOS Y FALLOS DE " + perdedor.toUpperCase() + ": " + puntos2 + ", " + aciertos2
-                + ", " + fallos2);
+            int aciertos2, int fallos2, int tablero) {
 
+        try {
+            FileWriter archivo = new FileWriter(texto, true);
+            BufferedWriter actualizar = new BufferedWriter(archivo);
+            PrintWriter escribir = new PrintWriter(actualizar);
+            escribir.println("\noooooooooooooooooooooooooooooooooooooooooooooooooo");
+            escribir.println("\nGANADOR: " + ganador.toUpperCase() + " / PERDEDOR: " + perdedor.toUpperCase());
+            escribir.println("TAMANIO DEL TABLERO: " + tablero + " x " + tablero);
+            escribir.println("PUNTOS, ACIERTOS Y FALLOS DE " + ganador.toUpperCase() + ": " + puntos1 + ", " + aciertos1
+                    + ", " + fallos1);
+            escribir.println("PUNTOS, ACIERTOS Y FALLOS DE " + perdedor.toUpperCase() + ": " + puntos2 + ", "
+                    + aciertos2 + ", " + fallos2);
+            escribir.println("\noooooooooooooooooooooooooooooooooooooooooooooooooo");
+            escribir.close();
+            actualizar.close();
+        } catch (IOException errorAct) {
+            System.out.println("No se pudo actualizar el historial de partidas");
+        }
     }
 }

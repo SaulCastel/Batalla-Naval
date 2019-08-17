@@ -5,6 +5,7 @@ public class Menu {
     static boolean salir = false;
     static int opcion = 0;
     public static void main(String[] args) {
+        Top.resultados("prueba",1,2,3,"prueba",4,5,6,26);
         while(!salir){
             opcion = Opcion.opciones();
             switch (opcion) {
@@ -12,6 +13,7 @@ public class Menu {
                     Opcion.partida();
                     break;
                 case 2:
+                    Top.historial();
                     break;
                 case 3:
                     break;
@@ -27,11 +29,11 @@ public class Menu {
                     System.out.print("\nSECCION C\n");
                     break;
                 case 8:
-                    System.out.print("\n¡Hasta pronto!\n");
+                    System.out.print("\n¡HASTA PRONTO, GRACIAS POR JUGAR!\n");
                     salir = true;
                     break;
                 default:
-                    salir = true;
+                    System.out.println("\nESCOGE UNA OPCION VALIDA\n");
                     break;
             }
         }
