@@ -44,10 +44,18 @@ class Barco {
         } while (condicion);
     }
 
-    public static int tiro(String atacado[][],String atacante[][]) {
-        int puntos = 0;
+    public static void pruebas(String matriz[][]){
+        for (int f = 0; f < 2 ; f++) {
+            for (int c = 0; c < 10; c++) {
+                matriz[f][c] = "■";   
+            }
+        }
+    }
+
+    public static boolean tiro(String atacado[][],String atacante[][]) {
+        boolean acierto = false;
         boolean condicion = true;
-        System.out.println("\nDisparo: ");
+        System.out.println("Disparo: ");
         do {
             int posfi = Coordenada.fila(atacado.length, 0);
             int posci = Coordenada.columna(atacado.length, 0);
@@ -56,19 +64,33 @@ class Barco {
             else if (atacado[posfi][posci] == "■"){
                 atacado[posfi][posci] = ANSI.ROJO+"X"+ANSI.RESET+"";
                 atacante[posfi][posci] = ANSI.ROJO+"X"+ANSI.RESET+"";
-                System.out.println("\n"+ANSI.VERDE+"***¡LE DISTE!***"+ANSI.RESET+"\n");
-                puntos = 50;
+                acierto = true;
                 condicion = false;
             }
             else{
                 atacado[posfi][posci] = ANSI.AZUL+"O"+ANSI.RESET+"";
                 atacante[posfi][posci] = ANSI.AZUL+"O"+ANSI.RESET+"";
                 System.out.println("\n"+ANSI.CELESTE+"***¡FALLASTE!***"+ANSI.RESET+"\n");
-                puntos = -5;
                 condicion = false;
             }
         }while (condicion);
-        return puntos;
+        return acierto;
+    }
+    public static void vida(int cantidad){
+        String cuatro = ANSI.ROJO+"■ ■ ■ ■"+ANSI.RESET;
+        String tres = ANSI.ROJO+"■ ■ ■"+ANSI.RESET;
+        String dos = ANSI.ROJO+"■ ■"+ANSI.RESET;
+        String uno = ANSI.ROJO+"■"+ANSI.RESET;
+        String corazones = null;
+        if (cantidad > 15)
+            corazones = cuatro;
+        else if (cantidad > 10)
+            corazones = tres;
+        else if (cantidad > 5)
+            corazones = dos;
+        else if (cantidad >= 1)
+            corazones = uno;
+        System.out.println("HP: " + corazones+"\n");
     }
 
     public static boolean establecer(String matriz[][], int tamanio, int posfi, int posci, int posff, int poscf) {
