@@ -16,7 +16,7 @@ class Top {
     }
 
     public static void resultados(String ganador, int puntos1, int aciertos1, int fallos1, String perdedor, int puntos2,
-            int aciertos2, int fallos2, int tablero) {
+            int aciertos2, int fallos2, int tablero, int turnos) {
 
         try {
             FileWriter archivo = new FileWriter(Menu.historial, true);
@@ -24,7 +24,7 @@ class Top {
             PrintWriter escribir = new PrintWriter(actualizar);
             escribir.println("\noooooooooooooooooooooooooooooooooooooooooooooooooo");
             escribir.println("\nGANADOR: " + ganador.toUpperCase() + " / PERDEDOR: " + perdedor.toUpperCase());
-            escribir.println("TAMANIO DEL TABLERO: " + tablero + " x " + tablero);
+            escribir.println("TAMANIO DEL TABLERO: " + tablero + " x " + tablero + " / TURNOS: " + turnos);
             escribir.println("PUNTOS, ACIERTOS Y FALLOS DE " + ganador.toUpperCase() + ": " + puntos1 + ", " + aciertos1
                     + ", " + fallos1);
             escribir.println("PUNTOS, ACIERTOS Y FALLOS DE " + perdedor.toUpperCase() + ": " + puntos2 + ", "

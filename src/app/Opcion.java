@@ -99,7 +99,7 @@ class Opcion {
                 fallos1 = Top.cantidad( tablero2, ANSI.AZUL+"O"+ANSI.RESET+"");
                 aciertos2 = Top.cantidad( tablero, ANSI.ROJO+"X"+ANSI.RESET+"");
                 fallos2 = Top.cantidad( tablero, ANSI.AZUL+"O"+ANSI.RESET+"");
-                Top.resultados(j2, puntos2, aciertos2 , fallos2, j1, puntos1, aciertos1, fallos1, tamanio);
+                Top.resultados(j2, puntos2, aciertos2 , fallos2, j1, puntos1, aciertos1, fallos1, tamanio, numero);
                 terminar = true;
             } else if (puntos2 <= 0 || barcos2 == 0){
                 System.out.println("***¡"+j2.toUpperCase()+" PIERDE, FELICIDADES "+j1.toUpperCase()+"!***");
@@ -108,7 +108,7 @@ class Opcion {
                 fallos1 = Top.cantidad( tablero2, ANSI.AZUL+"O"+ANSI.RESET+"");
                 aciertos2 = Top.cantidad( tablero, ANSI.ROJO+"X"+ANSI.RESET+"");
                 fallos2 = Top.cantidad( tablero, ANSI.AZUL+"O"+ANSI.RESET+"");
-                Top.resultados(j1, puntos1, aciertos1 , fallos1, j2, puntos2, aciertos2, fallos2, tamanio);
+                Top.resultados(j1, puntos1, aciertos1 , fallos1, j2, puntos2, aciertos2, fallos2, tamanio, numero);
                 terminar = true;
             }
         }
@@ -116,23 +116,24 @@ class Opcion {
 
     private static void Barcos(String j, String matriz1[][], String matriz2[][]) {
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 1 BARCO DE 4 CASILLAS");
+        System.out.println("\no-o BARCO DE 3 CASILLAS # 1 o-o");
         Barco.barco4(matriz1);
         Tablero.dibujar(matriz1, matriz2);
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 2 BARCOS DE 3 CASILLAS");
         for (int b = 1; b <= 2; b++) {
-            System.out.println("--→Barco #" + b+"←--");
+            System.out.println("\no-o BARCO DE 3 CASILLAS #" + b+" o-o");
             Barco.barco3(matriz1);
             Tablero.dibujar(matriz1, matriz2);
         }
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 3 BARCOS DE 2 CASILLAS");
         for (int b = 1; b <= 3; b++) {
-            System.out.println("--→Barco #" + b+"←--");
+            System.out.println("\no-o BARCO DE 2 CASILLAS #" + b+" o-o");
             Barco.barco2(matriz1);
             Tablero.dibujar(matriz1, matriz2);
         }
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 4 BARCOS DE 1 CASILLA");
         for (int b = 1; b <= 4; b++) {
-            System.out.println("--→Barco #" + b+"←--");
+            System.out.println("\no-o BARCO DE 1 CASILLAS #" + b+" o-o");
             Barco.barco1(matriz1);
             Tablero.dibujar(matriz1, matriz2);
         }

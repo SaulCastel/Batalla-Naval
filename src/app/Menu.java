@@ -5,6 +5,7 @@ import java.io.*;
 public class Menu {
     static File historial = new File("historial.txt");
     static File logo = new File("logo.txt");
+    static File dibujo = new File("salir.txt");
     static boolean salir = false;
     static int opcion = 0;
 
@@ -26,7 +27,7 @@ public class Menu {
                 System.out.print("\n********* SECCION C **********\n");
                 break;
             case 4:
-                System.out.print("\n¡HASTA PRONTO, GRACIAS POR JUGAR!\n");
+                Opcion.archivo(dibujo);
                 salir = true;
                 break;
             default:
