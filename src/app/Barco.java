@@ -1,7 +1,7 @@
 package app;
 
 class Barco {
-    
+
     public static void barco4(String matriz[][]) {
         boolean condicion = true;
         do {
@@ -44,53 +44,72 @@ class Barco {
         } while (condicion);
     }
 
-    public static void pruebas(String matriz[][]){
-        for (int f = 0; f < 2 ; f++) {
+    public static void pruebas(String matriz[][]) {
+        for (int f = 0; f < 2; f++) {
             for (int c = 0; c < 10; c++) {
-                matriz[f][c] = "■";   
+                matriz[f][c] = "■";
             }
         }
     }
 
-    public static boolean tiro(String atacado[][],String atacante[][]) {
-        boolean acierto = false;
+    public static int tiro(String atacado[][], String atacante[][], boolean poder) {
+        int estado = 0;
         boolean condicion = true;
-        System.out.println("Disparo: ");
+        double suerte = (poder) ? Math.random() : 1;
+        System.out.print("\nCoordenadas Disparo: ");
         do {
             int posfi = Coordenada.fila(atacado.length, 0);
             int posci = Coordenada.columna(atacado.length, 0);
-            if (atacado[posfi][posci] == ANSI.AZUL+"O"+ANSI.RESET+"" || atacado[posfi][posci] == ANSI.ROJO+"X"+ANSI.RESET+"")
-                System.out.println("\n"+ANSI.ROJO+"***¡YA DISPARASTE AQUI!***"+ANSI.RESET+"\n");
-            else if (atacado[posfi][posci] == "■"){
-                atacado[posfi][posci] = ANSI.ROJO+"X"+ANSI.RESET+"";
-                atacante[posfi][posci] = ANSI.ROJO+"X"+ANSI.RESET+"";
-                acierto = true;
+            if (atacado[posfi][posci] == ANSI.AZUL + "O" + ANSI.RESET + ""
+                    || atacado[posfi][posci] == ANSI.ROJO + "X" + ANSI.RESET + "")
+                System.out.println("\n" + ANSI.ROJO + "***¡YA DISPARASTE AQUI!***" + ANSI.RESET + "\n");
+            else if (atacado[posfi][posci] == "■") {
+                atacado[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
+                atacante[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
+                estado = 4;
+                condicion = false;
+            } else {
+                atacado[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
+                atacante[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
+                System.out.println("\n" + ANSI.CELESTE + "***¡FALLASTE!***" + ANSI.RESET + "\n");
+
+                if (suerte >= 0.0 && suerte <= 0.05) {
+                    System.out.println("PERO ENCONTRASTE EL PODER ESPECIAL: DAÑO EN AREA");
+                    estado = 1;
+                } else if (suerte >= 0.4 && suerte <= 0.45) {
+                    System.out.println("PERO ENCONTRASTE EL PODER ESPECIAL: SCANNER");
+                    estado = 2;
+                } else if (suerte >= 0.9 && suerte <= 0.95) {
+                    System.out.println("PERO ENCONTRASTE EL PODER ESPECIAL: OTRO TURNO");
+                    estado = 3;
+                }
                 condicion = false;
             }
-            else{
-                atacado[posfi][posci] = ANSI.AZUL+"O"+ANSI.RESET+"";
-                atacante[posfi][posci] = ANSI.AZUL+"O"+ANSI.RESET+"";
-                System.out.println("\n"+ANSI.CELESTE+"***¡FALLASTE!***"+ANSI.RESET+"\n");
-                condicion = false;
-            }
-        }while (condicion);
-        return acierto;
+        } while (condicion);
+        return estado;
     }
-    public static void vida(int cantidad){
-        String cuatro = ANSI.ROJO+"■ ■ ■ ■"+ANSI.RESET;
-        String tres = ANSI.ROJO+"■ ■ ■"+ANSI.RESET;
-        String dos = ANSI.ROJO+"■ ■"+ANSI.RESET;
-        String uno = ANSI.ROJO+"■"+ANSI.RESET;
+
+    public static void cajita(int numero) {
+        String poderes[] = { "", "\u001b[1;31mA\u001b[1;33mR\u001b[32mE\u001b[1;35mA\u001B[0m", // AREA
+                "\u001b[1;31mS\u001b[1;33mC\u001b[32mA\u001b[1;35mN\u001B[0m", // SCAN
+                "\u001b[1;31mO\u001b[1;33mT\u001b[32mR\u001b[1;35mO\u001B[0m", // OTRO
+                "" };
+        System.out.print(" PODER [ " + poderes[numero] + " ]\n");
+    }
+
+    public static void vida(int cantidad) {
+        String HP[] = { ANSI.ROJO + "■" + ANSI.RESET, ANSI.ROJO + "■ ■" + ANSI.RESET, ANSI.ROJO + "■ ■ ■" + ANSI.RESET,
+                ANSI.ROJO + "■ ■ ■ ■" + ANSI.RESET, };
         String corazones = null;
         if (cantidad > 15)
-            corazones = cuatro;
+            corazones = HP[3];
         else if (cantidad > 10)
-            corazones = tres;
+            corazones = HP[2];
         else if (cantidad > 5)
-            corazones = dos;
+            corazones = HP[1];
         else if (cantidad >= 1)
-            corazones = uno;
-        System.out.println("HP: " + corazones+"\n");
+            corazones = HP[0];
+        System.out.print("\nHP [ " + corazones + " ]");
     }
 
     public static boolean establecer(String matriz[][], int tamanio, int posfi, int posci, int posff, int poscf) {
@@ -101,7 +120,7 @@ class Barco {
         switch (tamanio) {
         case 1:
             if (matriz[posfi][posci] == "■")
-                System.out.println("\n"+ANSI.ROJO+"***¡BARCO TRASLAPA!***"+ANSI.RESET+"\n");
+                System.out.println("\n" + ANSI.ROJO + "***¡BARCO TRASLAPA!***" + ANSI.RESET + "\n");
             else {
                 matriz[posfi][posci] = "■";
                 terminar = false;
@@ -115,13 +134,13 @@ class Barco {
                     for (int c = 0; c < tamanio; c++) {
                         if (posff == posfi + (tamanio - 1)) { // arriba abajo
                             if (matriz[posfi + c][posci] == "■") {
-                                System.out.println("\n"+ANSI.ROJO+"***¡BARCO TRASLAPA!***"+ANSI.RESET+"\n");
+                                System.out.println("\n" + ANSI.ROJO + "***¡BARCO TRASLAPA!***" + ANSI.RESET + "\n");
                                 traslape = true;
                                 break;
                             }
 
                         } else if (matriz[posff + c][posci] == "■") { // abajo arriba
-                            System.out.println("\n"+ANSI.ROJO+"***¡BARCO TRASLAPA!***"+ANSI.RESET+"\n");
+                            System.out.println("\n" + ANSI.ROJO + "***¡BARCO TRASLAPA!***" + ANSI.RESET + "\n");
                             traslape = true;
                             break;
                         }
@@ -149,13 +168,13 @@ class Barco {
                     for (int c = 0; c < tamanio; c++) {
                         if (poscf == posci + (tamanio - 1)) {
                             if (matriz[posfi][posci + c] == "■") {
-                                System.out.println("\n"+ANSI.ROJO+"***¡BARCO TRASLAPA!***"+ANSI.RESET+"\n");
+                                System.out.println("\n" + ANSI.ROJO + "***¡BARCO TRASLAPA!***" + ANSI.RESET + "\n");
                                 traslape = true;
                                 break;
                             }
 
                         } else if (matriz[posfi][poscf + c] == "■") {
-                            System.out.println("\n"+ANSI.ROJO+"***¡BARCO TRASLAPA!***"+ANSI.RESET+"\n");
+                            System.out.println("\n" + ANSI.ROJO + "***¡BARCO TRASLAPA!***" + ANSI.RESET + "\n");
                             traslape = true;
                             break;
 
@@ -179,7 +198,7 @@ class Barco {
             } else
                 fallo2 = true;
             if (fallo1 == true && fallo2 == true)
-                System.out.println("\n"+ANSI.ROJO+"***TAMANIO INCORRECTO O DIAGONAL***"+ANSI.RESET+"\n");
+                System.out.println("\n" + ANSI.ROJO + "***TAMANIO INCORRECTO O DIAGONAL***" + ANSI.RESET + "\n");
             break;
         }
         return terminar;
