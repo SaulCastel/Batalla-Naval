@@ -116,7 +116,6 @@ class Opcion {
 
     private static void Barcos(String j, String matriz1[][], String matriz2[][]) {
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 1 BARCO DE 4 CASILLAS");
-        System.out.println("\no-o BARCO DE 3 CASILLAS # 1 o-o");
         Barco.barco4(matriz1);
         Tablero.dibujar(matriz1, matriz2);
         System.out.println("\n" + j.toUpperCase() + ", INGRESA 2 BARCOS DE 3 CASILLAS");
