@@ -1,6 +1,10 @@
 package app;
 
+import java.util.Scanner;
+import java.util.Random;
+
 class Barco {
+    public static boolean proseguir = true;
 
     public static void barco4(String matriz[][]) {
         boolean condicion = true;
@@ -53,48 +57,94 @@ class Barco {
     }
 
     public static int tiro(String atacado[][], String atacante[][], boolean poder) {
+        Scanner entrada = new Scanner(System.in);
+        int eleccion = 0;
         int estado = 0;
-        boolean condicion = true;
-        double suerte = (poder) ? Math.random() : 1;
-        System.out.print("\nCoordenadas Disparo: ");
-        do {
-            int posfi = Coordenada.fila(atacado.length, 0);
-            int posci = Coordenada.columna(atacado.length, 0);
-            if (atacado[posfi][posci] == ANSI.AZUL + "O" + ANSI.RESET + ""
-                    || atacado[posfi][posci] == ANSI.ROJO + "X" + ANSI.RESET + "")
-                System.out.println("\n" + ANSI.ROJO + "***¡YA DISPARASTE AQUI!***" + ANSI.RESET + "\n");
-            else if (atacado[posfi][posci] == "■") {
-                atacado[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
-                atacante[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
-                estado = 4;
-                condicion = false;
-            } else {
-                atacado[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
-                atacante[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
-                System.out.println("\n" + ANSI.CELESTE + "***¡FALLASTE!***" + ANSI.RESET + "\n");
+        int D1, D2;
+        Random dados = new Random();
 
-                if (suerte >= 0.0 && suerte <= 0.05) {
-                    System.out.println("PERO ENCONTRASTE EL PODER ESPECIAL: DAÑO EN AREA");
-                    estado = 1;
-                } else if (suerte >= 0.4 && suerte <= 0.45) {
-                    System.out.println("PERO ENCONTRASTE EL PODER ESPECIAL: SCANNER");
-                    estado = 2;
-                } else if (suerte >= 0.9 && suerte <= 0.95) {
-                    System.out.println("PERO ENCONTRASTE EL PODER ESPECIAL: OTRO TURNO");
-                    estado = 3;
+        double suerte = (poder) ? Math.random() * 10 : 1;
+        System.out.print("DISPARAR(1) | DADOS(2) | USAR PODER(3) | RENDIRTE(4)\n");
+        System.out.print("QUE DESEAS HACER: ");
+        while (!entrada.hasNextInt()) {
+            entrada.nextLine();
+        }
+        eleccion = entrada.nextInt();
+        if (eleccion == 1) {
+            do {
+                int posfi = Coordenada.fila(atacado.length, 0);
+                int posci = Coordenada.columna(atacado.length, 0);
+                estado = disparo(atacado, atacante, posfi, posci, suerte);
+            } while (proseguir);
+        } else if (eleccion == 2) {
+            do {
+                D1 = dados.nextInt(atacante.length);
+                D2 = dados.nextInt(atacante.length);
+                if (atacante[D1][D2] != ANSI.CELESTE + "." + ANSI.RESET + "")
+                    proseguir = true;
+                else {
+                    estado = disparo(atacado, atacante, D1, D2, suerte);
+                    proseguir = false;
                 }
-                condicion = false;
-            }
-        } while (condicion);
+            } while (proseguir);
+
+        } else if (eleccion == 3) {
+
+        } else if (eleccion == 4) {
+            estado = 6;
+        }
         return estado;
     }
 
-    public static void cajita(int numero) {
-        String poderes[] = { "", "\u001b[1;31mA\u001b[1;33mR\u001b[32mE\u001b[1;35mA\u001B[0m", // AREA
-                "\u001b[1;31mS\u001b[1;33mC\u001b[32mA\u001b[1;35mN\u001B[0m", // SCAN
-                "\u001b[1;31mO\u001b[1;33mT\u001b[32mR\u001b[1;35mO\u001B[0m", // OTRO
-                "" };
-        System.out.print(" PODER [ " + poderes[numero] + " ]\n");
+    static int disparo(String atacado[][], String atacante[][], int posfi, int posci, double suerte) {
+        int entregar = 0;
+
+        if (atacado[posfi][posci] == ANSI.AZUL + "O" + ANSI.RESET + ""
+                || atacado[posfi][posci] == ANSI.ROJO + "X" + ANSI.RESET + "")
+            System.out.println("\n" + ANSI.ROJO + "***¡YA DISPARASTE AQUI!***" + ANSI.RESET + "\n");
+        else if (atacado[posfi][posci] == "■") {
+            atacado[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
+            atacante[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
+            entregar = 5;
+            proseguir = false;
+        } else {
+            atacado[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
+            atacante[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
+            System.out.println("\n" + ANSI.CELESTE + "***¡FALLASTE!***" + ANSI.RESET + "\n");
+
+            if (suerte >= 0.0 && suerte < 0.2) {
+                PCN(1);
+                entregar = 1;
+            } else if (suerte >= 1.25 && suerte < 1.45) {
+                PCN(2);
+                entregar = 2;
+            } else if (suerte >= 2.5 && suerte < 2.7) {
+                PCN(3);
+                entregar = 3;
+            } else if (suerte >= 3.75 && suerte < 3.95) {
+                PCN(4);
+                entregar = 4;
+            } else if (suerte >= 5 && suerte < 5.2) {
+                PCN(5);
+            } else if (suerte >= 6.25 && suerte < 6.45) {
+                PCN(6);
+            } else if (suerte >= 7.5 && suerte < 7.7) {
+                PCN(7);
+            } else if (suerte >= 8.75 && suerte < 8.95) {
+                PCN(8);
+            }
+            proseguir = false;
+        }
+        return entregar;
+    }
+
+    public static void mostrarPCN(int numero) {
+        String poderes[] = { "", "KA BOOM", "ESCOGE", "NEBLINA", "ESCUDO", "" };
+        if (numero > 0 && numero < 5) {
+            System.out.println(" \u001b[1;31mP \u001b[1;33mO \u001b[32mD \u001b[1;35mE \u001b[36mR\u001B[0m [ "
+                    + poderes[numero] + " ]\n");
+        } else
+            System.out.println(" PODER [ " + poderes[numero] + " ]\n");
     }
 
     public static void vida(int cantidad) {
@@ -110,6 +160,14 @@ class Barco {
         else if (cantidad >= 1)
             corazones = HP[0];
         System.out.print("\nHP [ " + corazones + " ]");
+    }
+
+    public static void PCN(int mPCN) {
+        String mensaje[] = {"", "¡PERO AHORA PUEDES HACER KA BOOM!", "¡PERO AHORA PUEDES ESCOGER UN PODER!",
+                "¡PERO AHORA PUEDES ENVOLVERTE EN NEBLINA!", "¡PERO CONSEGUISTE UN ESCUDO!",
+                "¡Y ADEMAS DEBES ESCOGER UN PODER PARA REGALAR A TU RIVAL!", "¡Y ADEMAS PIERDES 120 PUNTOS!",
+                "!PERO DESPERTASTE A UN KRAKEN¡\n¡EL KRAKEN ATACA!", "¡PERO UN JUGADOR OBTIENE DADOS TRUCADOS!" };
+        System.out.println(mensaje[mPCN]);
     }
 
     public static boolean establecer(String matriz[][], int tamanio, int posfi, int posci, int posff, int poscf) {

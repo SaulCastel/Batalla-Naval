@@ -59,6 +59,8 @@ class Opcion {
         boolean extra = false;
         boolean usado1 = true;
         boolean usado2 = true;
+        boolean rendirse1 = false;
+        boolean rendirse2 = false;
         double cadena = 1.0;
         int estado1 = 0;
         int estado2 = 0;
@@ -74,7 +76,7 @@ class Opcion {
         int barcos2 = Top.cantidad(turno2, "■");
         entrada.nextLine();// Inicializar el scanner de nuevo
         while (!terminar) {
-            if (quien >= 0.0 && quien <= 0.5 && barcos1 != 0 && barcos2 != 0) {
+            if (quien >= 0.0 && quien <= 0.5 && barcos1 != 0 && barcos2 != 0 && !rendirse1 && !rendirse2) {
                 Tablero.dibujar(tablero, tablero2);
                 if (extra) {
                     System.out.println(
@@ -84,34 +86,34 @@ class Opcion {
                 System.out.println("\n[ DISPAROS: " + turnosj1 + ", " + j1.toUpperCase() + " , PUNTOS x" + cadena + ": "
                         + puntos1 + " ]");
                 Barco.vida(barcos1);
-                Barco.cajita(poderj1);
+                Barco.mostrarPCN(poderj1);
                 estado1 = Barco.tiro(turno2, tablero2, usado1);
-                if (estado1 == 4) {
+                if (estado1 == 5) {
                     puntos1 += 50 * cadena;
                     cadena = (cadena == 2.5) ? cadena + 0.0 : cadena + 0.5;
                     turnosj1++;
                     quien = 0.2;
                     extra = true;
-                } else {
-                    if (estado1 > 0 && estado1 <= 3) {
+                } else if (estado1 != 6) {
+                    if (estado1 > 0 && estado1 <= 4) {
                         poderj1 = estado1;
                         usado1 = false;
                     }
                     Tablero.dibujar(tablero, tablero2);
                     puntos1 -= 20;
-                    cadena = 0;
+                    cadena = 1.0;
                     turnosj1++;
                     quien = 0.8;
                     System.out.println("\n---" + j2.toUpperCase() + " es tu tuno, presiona ENTER---");
                     entrada.nextLine();
-                }
-
+                } else
+                    rendirse1 = true;
                 barcos2 = Top.cantidad(turno2, "■");
                 for (int i = 0; i < 20; i++) {
                     System.out.println("\n");
                 }
             }
-            if (quien > 0.5 && quien <= 1.0 && barcos2 != 0 && barcos1 != 0) {
+            if (quien > 0.5 && quien <= 1.0 && barcos2 != 0 && barcos1 != 0 && !rendirse1 && !rendirse2) {
                 Tablero.dibujar(tablero, tablero2);
                 if (extra) {
                     System.out.println(
@@ -121,33 +123,34 @@ class Opcion {
                 System.out.println("\n[ DISPAROS: " + turnosj2 + ", " + j2.toUpperCase() + " , PUNTOS x" + cadena + ": "
                         + puntos2 + " ]");
                 Barco.vida(barcos2);
-                Barco.cajita(poderj2);
+                Barco.mostrarPCN(poderj2);
                 estado2 = Barco.tiro(turno, tablero, usado2);
-                if (estado2 == 4) {
+                if (estado2 == 5) {
                     puntos2 += 50 * cadena;
                     cadena = (cadena == 2.5) ? cadena + 0.0 : cadena + 0.5;
                     turnosj2++;
                     quien = 0.8;
                     extra = true;
-                } else {
-                    if (estado2 > 0 && estado2 <= 3) {
+                } else if (estado2 != 6) {
+                    if (estado2 > 0 && estado2 <= 4) {
                         poderj2 = estado2;
                         usado2 = false;
                     }
                     Tablero.dibujar(tablero, tablero2);
                     puntos2 -= 20;
-                    cadena = 0;
+                    cadena = 1.0;
                     turnosj2++;
                     quien = 0.2;
                     System.out.println("\n---" + j1.toUpperCase() + " es tu tuno, presiona ENTER---");
                     entrada.nextLine();
-                }
+                } else
+                    rendirse2 = true;
                 barcos1 = Top.cantidad(turno, "■");
                 for (int i = 0; i < 20; i++) {
                     System.out.println("\n");
                 }
             }
-            if (puntos1 <= 0 || barcos1 == 0) {
+            if (puntos1 <= 0 || barcos1 == 0 || rendirse1) {
                 System.out.println("***¡" + j1.toUpperCase() + " PIERDE, FELICIDADES " + j2.toUpperCase() + "!***");
                 System.out.println("***¡GANASTE LA PARTIDA CON " + puntos2 + " PUNTOS!***");
                 aciertos1 = Top.cantidad(tablero2, ANSI.ROJO + "X" + ANSI.RESET + "");
@@ -157,7 +160,7 @@ class Opcion {
                 numero = turnosj1 + turnosj2;
                 Top.resultados(j2, puntos2, aciertos2, fallos2, j1, puntos1, aciertos1, fallos1, tamanio, numero);
                 terminar = true;
-            } else if (puntos2 <= 0 || barcos2 == 0) {
+            } else if (puntos2 <= 0 || barcos2 == 0 || rendirse2) {
                 System.out.println("***¡" + j2.toUpperCase() + " PIERDE, FELICIDADES " + j1.toUpperCase() + "!***");
                 System.out.println("***¡GANASTE LA PARTIDA CON " + puntos1 + " PUNTOS!***");
                 aciertos1 = Top.cantidad(tablero2, ANSI.ROJO + "X" + ANSI.RESET + "");

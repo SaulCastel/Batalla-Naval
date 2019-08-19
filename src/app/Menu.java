@@ -11,7 +11,7 @@ public class Menu {
 
     public static void main(String[] args) {
         Opcion.archivo(logo);
-        System.out.println("\nBatalla Naval v2.5\n");
+        System.out.println("\nBatalla Naval v1.0 ULTRA\n");
         while (!salir) {
             opcion = Opcion.opciones();
             switch (opcion) {
