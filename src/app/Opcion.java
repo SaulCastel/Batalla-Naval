@@ -87,7 +87,7 @@ class Opcion {
                         + puntos1 + " ]");
                 Barco.vida(barcos1);
                 Barco.mostrarPCN(poderj1);
-                estado1 = Barco.tiro(turno2, tablero2, usado1);
+                estado1 = Barco.tiro(turno2, tablero2, usado1, poderj1);
                 if (estado1 == 5) {
                     puntos1 += 50 * cadena;
                     cadena = (cadena == 2.5) ? cadena + 0.0 : cadena + 0.5;
@@ -124,7 +124,7 @@ class Opcion {
                         + puntos2 + " ]");
                 Barco.vida(barcos2);
                 Barco.mostrarPCN(poderj2);
-                estado2 = Barco.tiro(turno, tablero, usado2);
+                estado2 = Barco.tiro(turno, tablero, usado2, poderj2);
                 if (estado2 == 5) {
                     puntos2 += 50 * cadena;
                     cadena = (cadena == 2.5) ? cadena + 0.0 : cadena + 0.5;

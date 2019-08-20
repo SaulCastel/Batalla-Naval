@@ -56,14 +56,14 @@ class Barco {
         }
     }
 
-    public static int tiro(String atacado[][], String atacante[][], boolean poder) {
+    public static int tiro(String atacado[][], String atacante[][], boolean usado, int poder) {
         Scanner entrada = new Scanner(System.in);
         int eleccion = 0;
         int estado = 0;
         int D1, D2;
         Random dados = new Random();
 
-        double suerte = (poder) ? Math.random() * 10 : 1;
+        double suerte = (usado) ? Math.random() * 10 : 1;
         System.out.print("DISPARAR(1) | DADOS(2) | USAR PODER(3) | RENDIRTE(4)\n");
         System.out.print("QUE DESEAS HACER: ");
         while (!entrada.hasNextInt()) {
@@ -83,13 +83,20 @@ class Barco {
                 if (atacante[D1][D2] != ANSI.CELESTE + "." + ANSI.RESET + "")
                     proseguir = true;
                 else {
+                    System.out.println("\nLOS DADOS MUESTRAN: ["+ANSI.VERDE+Coordenada.conversion(D1+1)+" - "+(D2+1)+ANSI.RESET+"]");
+                    System.out.println("PRESIONA ENTER PARA CONTINUAR");
+                    entrada.nextLine();
+                    entrada.nextLine();
                     estado = disparo(atacado, atacante, D1, D2, suerte);
                     proseguir = false;
                 }
             } while (proseguir);
-
+            
         } else if (eleccion == 3) {
-
+            if (poder > 0 && poder <5)
+                usar(poder);
+            else
+                System.out.println("¡NO TIENES NINGUN PODER!"); 
         } else if (eleccion == 4) {
             estado = 6;
         }
@@ -168,6 +175,10 @@ class Barco {
                 "¡Y ADEMAS DEBES ESCOGER UN PODER PARA REGALAR A TU RIVAL!", "¡Y ADEMAS PIERDES 120 PUNTOS!",
                 "!PERO DESPERTASTE A UN KRAKEN¡\n¡EL KRAKEN ATACA!", "¡PERO UN JUGADOR OBTIENE DADOS TRUCADOS!" };
         System.out.println(mensaje[mPCN]);
+    }
+
+    static void usar(int poder){
+
     }
 
     public static boolean establecer(String matriz[][], int tamanio, int posfi, int posci, int posff, int poscf) {

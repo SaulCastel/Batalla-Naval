@@ -10,3 +10,11 @@ PUNTOS, ACIERTOS Y FALLOS DE PRUEBA: 4, 5, 6
       ****EN EL HISTORIAL DE PARTIDAS****
 
 oooooooooooooooooooooooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooo
+
+GANADOR: 2 / PERDEDOR: 1
+TAMANIO DEL TABLERO: 10 x 10 / TURNOS: 1
+PUNTOS, ACIERTOS Y FALLOS DE 2: 200, 0, 0
+PUNTOS, ACIERTOS Y FALLOS DE 1: 250, 1, 0
+
+oooooooooooooooooooooooooooooooooooooooooooooooooo
