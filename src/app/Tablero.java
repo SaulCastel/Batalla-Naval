@@ -13,12 +13,12 @@ class Tablero {
     "O", "P", "Q", "R","S", "T", "U", 
     "V", "W", "X", "Y", "Z" };
     
-    public static void establecer(String matriz[][]) {
+    public static void establecer(String matriz[][], String elemento) {
         int _fila = 0;
         int _columna = 0;
         for (int v = 1; v <= matriz.length; v++) {
             for (int h = 1; h <= matriz.length; h++) {
-                matriz[_fila][_columna] = ANSI.CELESTE+ "." +ANSI.RESET+"";
+                matriz[_fila][_columna] = elemento;
                 _columna++;
             }
             _columna = 0;

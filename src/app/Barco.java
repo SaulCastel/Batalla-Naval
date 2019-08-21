@@ -64,42 +64,52 @@ class Barco {
         Random dados = new Random();
 
         double suerte = (usado) ? Math.random() * 10 : 1;
-        System.out.print("DISPARAR(1) | DADOS(2) | USAR PODER(3) | RENDIRTE(4)\n");
-        System.out.print("QUE DESEAS HACER: ");
-        while (!entrada.hasNextInt()) {
-            entrada.nextLine();
-        }
-        eleccion = entrada.nextInt();
-        if (eleccion == 1) {
-            do {
+        do {
+            System.out.println("\n\nDISPARAR(1) | DADOS(2) | USAR PODER(3) | RENDIRTE(4)");
+            System.out.print("QUE DESEAS HACER: ");
+            while (!entrada.hasNextInt()) {
+                entrada.nextLine();
+            }
+            eleccion = entrada.nextInt();
+            if (eleccion == 1) {
+
                 int posfi = Coordenada.fila(atacado.length, 0);
                 int posci = Coordenada.columna(atacado.length, 0);
                 estado = disparo(atacado, atacante, posfi, posci, suerte);
-            } while (proseguir);
-        } else if (eleccion == 2) {
-            do {
-                D1 = dados.nextInt(atacante.length);
-                D2 = dados.nextInt(atacante.length);
-                if (atacante[D1][D2] != ANSI.CELESTE + "." + ANSI.RESET + "")
-                    proseguir = true;
-                else {
-                    System.out.println("\nLOS DADOS MUESTRAN: ["+ANSI.VERDE+Coordenada.conversion(D1+1)+" - "+(D2+1)+ANSI.RESET+"]");
-                    System.out.println("PRESIONA ENTER PARA CONTINUAR");
-                    entrada.nextLine();
-                    entrada.nextLine();
-                    estado = disparo(atacado, atacante, D1, D2, suerte);
+
+            } else if (eleccion == 2) {
+                do {
+                    D1 = dados.nextInt(atacante.length);
+                    D2 = dados.nextInt(atacante.length);
+                    if (atacante[D1][D2] != ANSI.CELESTE + "." + ANSI.RESET + "")
+                        proseguir = true;
+                    else {
+                        System.out.println("\nLOS DADOS MUESTRAN: [" + ANSI.VERDE + Coordenada.conversion(D1 + 1)
+                                + " - " + (D2 + 1) + ANSI.RESET + "]");
+                        System.out.println("PRESIONA ENTER PARA CONTINUAR");
+                        entrada.nextLine();
+                        entrada.nextLine();
+                        estado = disparo(atacado, atacante, D1, D2, suerte);
+                        proseguir = false;
+                    }
+                } while (proseguir);
+
+            } else if (eleccion == 3) {
+                if (poder > 0 && poder < 5) {
+                    estado = PCN.usar(poder);
+                    poder = 0;
                     proseguir = false;
-                }
-            } while (proseguir);
-            
-        } else if (eleccion == 3) {
-            if (poder > 0 && poder <5)
-                usar(poder);
-            else
-                System.out.println("¡NO TIENES NINGUN PODER!"); 
-        } else if (eleccion == 4) {
-            estado = 6;
-        }
+                } else
+                    System.out.println(ANSI.ROJO + "\n¡NO TIENES NINGUN PODER! \nENTER PARA CONTINUAR\n" + ANSI.RESET);
+                    estado = 11;
+                    entrada.nextLine();
+                    entrada.nextLine();
+                    proseguir = false;
+            } else if (eleccion == 4) {
+                estado = 6;
+                proseguir = false;
+            }
+        } while (proseguir);
         return estado;
     }
 
@@ -107,9 +117,10 @@ class Barco {
         int entregar = 0;
 
         if (atacado[posfi][posci] == ANSI.AZUL + "O" + ANSI.RESET + ""
-                || atacado[posfi][posci] == ANSI.ROJO + "X" + ANSI.RESET + "")
+                || atacado[posfi][posci] == ANSI.ROJO + "X" + ANSI.RESET + "") {
             System.out.println("\n" + ANSI.ROJO + "***¡YA DISPARASTE AQUI!***" + ANSI.RESET + "\n");
-        else if (atacado[posfi][posci] == "■") {
+            proseguir = true;
+        } else if (atacado[posfi][posci] == "■") {
             atacado[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
             atacante[posfi][posci] = ANSI.ROJO + "X" + ANSI.RESET + "";
             entregar = 5;
@@ -119,66 +130,30 @@ class Barco {
             atacante[posfi][posci] = ANSI.AZUL + "O" + ANSI.RESET + "";
             System.out.println("\n" + ANSI.CELESTE + "***¡FALLASTE!***" + ANSI.RESET + "\n");
 
-            if (suerte >= 0.0 && suerte < 0.2) {
-                PCN(1);
+            if (suerte >= 0.0 && suerte < 0.2) { // entregar Ka boom 2%
+                PCN.mensaje(1);
                 entregar = 1;
-            } else if (suerte >= 1.25 && suerte < 1.45) {
-                PCN(2);
+            } else if (suerte >= 1.25 && suerte < 1.45) { // entregar escoger 2%
+                PCN.mensaje(2);
                 entregar = 2;
-            } else if (suerte >= 2.5 && suerte < 2.7) {
-                PCN(3);
+            } else if (suerte >= 2.5 && suerte < 3.0) { // entregar neblina 5%
+                PCN.mensaje(3);
                 entregar = 3;
-            } else if (suerte >= 3.75 && suerte < 3.95) {
-                PCN(4);
+            } else if (suerte >= 3.75 && suerte < 4.25) { // Entregar escudo 5%
+                PCN.mensaje(4);
                 entregar = 4;
-            } else if (suerte >= 5 && suerte < 5.2) {
-                PCN(5);
-            } else if (suerte >= 6.25 && suerte < 6.45) {
-                PCN(6);
-            } else if (suerte >= 7.5 && suerte < 7.7) {
-                PCN(7);
-            } else if (suerte >= 8.75 && suerte < 8.95) {
-                PCN(8);
+            } else if (suerte >= 5 && suerte < 5.2) { // Escoger negado 2%
+                PCN.mensaje(5);
+            } else if (suerte >= 6.25 && suerte < 6.75) { // perder 120 puntos 2%
+                PCN.mensaje(6);
+            } else if (suerte >= 7.5 && suerte < 8.0) { // Kraken 5%
+                PCN.mensaje(7);
+            } else if (suerte >= 8.75 && suerte < 9.25) { // dados trucados 5%
+                PCN.mensaje(8);
             }
             proseguir = false;
         }
         return entregar;
-    }
-
-    public static void mostrarPCN(int numero) {
-        String poderes[] = { "", "KA BOOM", "ESCOGE", "NEBLINA", "ESCUDO", "" };
-        if (numero > 0 && numero < 5) {
-            System.out.println(" \u001b[1;31mP \u001b[1;33mO \u001b[32mD \u001b[1;35mE \u001b[36mR\u001B[0m [ "
-                    + poderes[numero] + " ]\n");
-        } else
-            System.out.println(" PODER [ " + poderes[numero] + " ]\n");
-    }
-
-    public static void vida(int cantidad) {
-        String HP[] = { ANSI.ROJO + "■" + ANSI.RESET, ANSI.ROJO + "■ ■" + ANSI.RESET, ANSI.ROJO + "■ ■ ■" + ANSI.RESET,
-                ANSI.ROJO + "■ ■ ■ ■" + ANSI.RESET, };
-        String corazones = null;
-        if (cantidad > 15)
-            corazones = HP[3];
-        else if (cantidad > 10)
-            corazones = HP[2];
-        else if (cantidad > 5)
-            corazones = HP[1];
-        else if (cantidad >= 1)
-            corazones = HP[0];
-        System.out.print("\nHP [ " + corazones + " ]");
-    }
-
-    public static void PCN(int mPCN) {
-        String mensaje[] = {"", "¡PERO AHORA PUEDES HACER KA BOOM!", "¡PERO AHORA PUEDES ESCOGER UN PODER!",
-                "¡PERO AHORA PUEDES ENVOLVERTE EN NEBLINA!", "¡PERO CONSEGUISTE UN ESCUDO!",
-                "¡Y ADEMAS DEBES ESCOGER UN PODER PARA REGALAR A TU RIVAL!", "¡Y ADEMAS PIERDES 120 PUNTOS!",
-                "!PERO DESPERTASTE A UN KRAKEN¡\n¡EL KRAKEN ATACA!", "¡PERO UN JUGADOR OBTIENE DADOS TRUCADOS!" };
-        System.out.println(mensaje[mPCN]);
-    }
-
-    static void usar(int poder){
-
     }
 
     public static boolean establecer(String matriz[][], int tamanio, int posfi, int posci, int posff, int poscf) {

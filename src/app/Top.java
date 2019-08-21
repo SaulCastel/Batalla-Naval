@@ -22,7 +22,7 @@ class Top {
             FileWriter archivo = new FileWriter(Menu.historial, true);
             BufferedWriter actualizar = new BufferedWriter(archivo);
             PrintWriter escribir = new PrintWriter(actualizar);
-            escribir.println("\noooooooooooooooooooooooooooooooooooooooooooooooooo");
+            escribir.println("oooooooooooooooooooooooooooooooooooooooooooooooooo");
             escribir.println("\nGANADOR: " + ganador.toUpperCase() + " / PERDEDOR: " + perdedor.toUpperCase());
             escribir.println("TAMANIO DEL TABLERO: " + tablero + " x " + tablero + " / TURNOS: " + turnos);
             escribir.println("PUNTOS, ACIERTOS Y FALLOS DE " + ganador.toUpperCase() + ": " + puntos1 + ", " + aciertos1

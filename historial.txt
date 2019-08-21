@@ -18,3 +18,12 @@ PUNTOS, ACIERTOS Y FALLOS DE 2: 200, 0, 0
 PUNTOS, ACIERTOS Y FALLOS DE 1: 250, 1, 0
 
 oooooooooooooooooooooooooooooooooooooooooooooooooo
+
+oooooooooooooooooooooooooooooooooooooooooooooooooo
+
+GANADOR: 1 / PERDEDOR: 2
+TAMANIO DEL TABLERO: 10 x 10 / TURNOS: 0
+PUNTOS, ACIERTOS Y FALLOS DE 1: 300, 0, 0
+PUNTOS, ACIERTOS Y FALLOS DE 2: 300, 0, 0
+
+oooooooooooooooooooooooooooooooooooooooooooooooooo

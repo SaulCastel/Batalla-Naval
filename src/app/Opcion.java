@@ -31,10 +31,12 @@ class Opcion {
         String tablero2[][] = new String[tamanio][tamanio];
         String turno[][] = new String[tamanio][tamanio];
         String turno2[][] = new String[tamanio][tamanio];
-        Tablero.establecer(tablero);
-        Tablero.establecer(tablero2);
-        Tablero.establecer(turno);
-        Tablero.establecer(turno2);
+        String neblina[][] = new String[tamanio][tamanio];
+        Tablero.establecer(tablero, ANSI.CELESTE + "." + ANSI.RESET);
+        Tablero.establecer(tablero2, ANSI.CELESTE + "." + ANSI.RESET);
+        Tablero.establecer(turno, ANSI.CELESTE + "." + ANSI.RESET);
+        Tablero.establecer(turno2, ANSI.CELESTE + "." + ANSI.RESET);
+        Tablero.establecer(neblina, ANSI.BLANCO + "@" + ANSI.RESET);
         System.out.print("\n¿NOMBRE DEL JUGADOR 1?: ");
         String j1 = entrada.next();
         System.out.print("\n¿NOMBRE DEL JUGADOR 2?: ");
@@ -66,8 +68,10 @@ class Opcion {
         int estado2 = 0;
         int poderj1 = 0;
         int poderj2 = 0;
-        int puntos1 = 200;
-        int puntos2 = 200;
+        int restante1 = 0;
+        int restante2 = 0;
+        int puntos1 = 300;
+        int puntos2 = 300;
         int aciertos1 = 0;
         int fallos1 = 0;
         int aciertos2 = 0;
@@ -79,14 +83,26 @@ class Opcion {
             if (quien >= 0.0 && quien <= 0.5 && barcos1 != 0 && barcos2 != 0 && !rendirse1 && !rendirse2) {
                 Tablero.dibujar(tablero, tablero2);
                 if (extra) {
-                    System.out.println(
-                            "\n" + ANSI.VERDE + "---" + j1.toUpperCase() + " tienes un turno EXTRA---" + ANSI.RESET);
+                    System.out.println("\n" + ANSI.VERDE + "---" + j1.toUpperCase()
+                            + " ACERTASTE, CONTINUA TU CADENA!---" + ANSI.RESET);
                     extra = false;
                 }
-                System.out.println("\n[ DISPAROS: " + turnosj1 + ", " + j1.toUpperCase() + " , PUNTOS x" + cadena + ": "
+                System.out.print("\n\n[ DISPAROS: " + turnosj1 + ", " + j1.toUpperCase() + " , PUNTOS x" + cadena + ": "
                         + puntos1 + " ]");
-                Barco.vida(barcos1);
-                Barco.mostrarPCN(poderj1);
+                if (puntos1 <= 100)
+                    System.out.print(ANSI.ROJO + " <= ¡PUNTOS BAJOS!" + ANSI.RESET);
+                PCN.vida(barcos1);
+                if (restante1 > 1) {
+                    PCN.barra(poderj1);
+                    System.out.print(ANSI.VERDE + " <= " + restante1 + " T" + ANSI.RESET);
+                } else if (restante1 == 1) {
+                    PCN.barra(poderj1);
+                    System.out.println(ANSI.ROJO + " <= ¡ULTIMA OPORTUNIDAD!" + ANSI.RESET);
+                } else {
+                    poderj1 = 0;
+                    usado1 = true;
+                    PCN.barra(poderj1);
+                }
                 estado1 = Barco.tiro(turno2, tablero2, usado1, poderj1);
                 if (estado1 == 5) {
                     puntos1 += 50 * cadena;
@@ -98,14 +114,24 @@ class Opcion {
                     if (estado1 > 0 && estado1 <= 4) {
                         poderj1 = estado1;
                         usado1 = false;
+                        restante1 = 6;
+                    } else if (estado1 >= 7) {
+                        usado1 = true;
+                        poderj1 = 0;
                     }
-                    Tablero.dibujar(tablero, tablero2);
-                    puntos1 -= 20;
-                    cadena = 1.0;
-                    turnosj1++;
-                    quien = 0.8;
-                    System.out.println("\n---" + j2.toUpperCase() + " es tu tuno, presiona ENTER---");
-                    entrada.nextLine();
+                    if (estado1 <= 7) {
+                        Tablero.dibujar(tablero, tablero2);
+                        puntos1 -= 20;
+                        cadena = 1.0;
+                        turnosj1++;
+                        if (usado1 == false)
+                            restante1--;
+                        quien = 0.8;
+                        System.out.println("\n---" + j2.toUpperCase() + " ES TU TURNO, PRESIONA ENTER---");
+                        entrada.nextLine();
+                    } else {
+                        quien = 0.2;
+                    }
                 } else
                     rendirse1 = true;
                 barcos2 = Top.cantidad(turno2, "■");
@@ -116,14 +142,26 @@ class Opcion {
             if (quien > 0.5 && quien <= 1.0 && barcos2 != 0 && barcos1 != 0 && !rendirse1 && !rendirse2) {
                 Tablero.dibujar(tablero, tablero2);
                 if (extra) {
-                    System.out.println(
-                            "\n" + ANSI.VERDE + "---" + j2.toUpperCase() + " tienes un turno EXTRA---" + ANSI.RESET);
+                    System.out.println("\n" + ANSI.VERDE + "---" + j2.toUpperCase()
+                            + " ACERTASTE, CONTINUA TU CADENA!---" + ANSI.RESET);
                     extra = false;
                 }
-                System.out.println("\n[ DISPAROS: " + turnosj2 + ", " + j2.toUpperCase() + " , PUNTOS x" + cadena + ": "
+                System.out.print("\n[ DISPAROS: " + turnosj2 + ", " + j2.toUpperCase() + " , PUNTOS x" + cadena + ": "
                         + puntos2 + " ]");
-                Barco.vida(barcos2);
-                Barco.mostrarPCN(poderj2);
+                if (puntos2 <= 100)
+                    System.out.print(ANSI.ROJO + " <= ¡PUNTOS BAJOS!" + ANSI.RESET);
+                PCN.vida(barcos2);
+                if (restante2 > 1) {
+                    PCN.barra(poderj2);
+                    System.out.print(ANSI.VERDE + " <= " + restante2 + " T" + ANSI.RESET);
+                } else if (restante2 == 1) {
+                    PCN.barra(poderj2);
+                    System.out.println(ANSI.ROJO + " <= ¡ULTIMA OPORTUNIDAD!" + ANSI.RESET);
+                } else {
+                    poderj2 = 0;
+                    usado2 = true;
+                    PCN.barra(poderj2);
+                }
                 estado2 = Barco.tiro(turno, tablero, usado2, poderj2);
                 if (estado2 == 5) {
                     puntos2 += 50 * cadena;
@@ -135,14 +173,24 @@ class Opcion {
                     if (estado2 > 0 && estado2 <= 4) {
                         poderj2 = estado2;
                         usado2 = false;
+                        restante2 = 6;
+                    } else if (estado2 >= 7) {
+                        usado2 = true;
+                        poderj2 = 0;
                     }
-                    Tablero.dibujar(tablero, tablero2);
-                    puntos2 -= 20;
-                    cadena = 1.0;
-                    turnosj2++;
-                    quien = 0.2;
-                    System.out.println("\n---" + j1.toUpperCase() + " es tu tuno, presiona ENTER---");
-                    entrada.nextLine();
+                    if (estado2 <= 7) {
+                        Tablero.dibujar(tablero, tablero2);
+                        puntos2 -= 20;
+                        cadena = 1.0;
+                        turnosj2++;
+                        if (usado2 == false)
+                            restante2--;
+                        quien = 0.2;
+                        System.out.println("\n---" + j1.toUpperCase() + " ES TU TURNO, PRESIONA ENTER---");
+                        entrada.nextLine();
+                    } else {
+                        quien = 0.8;
+                    }
                 } else
                     rendirse2 = true;
                 barcos1 = Top.cantidad(turno, "■");

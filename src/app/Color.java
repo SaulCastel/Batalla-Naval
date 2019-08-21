@@ -7,4 +7,5 @@ class ANSI {
     public static final String VERDE = "\u001b[32m";
     public static final String ROJO = "\u001b[31m";
     public static final String AMA = "\u001b[1;33m";
+    public static final String BLANCO = "\u001b[1;37m";
 }
